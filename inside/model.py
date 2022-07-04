@@ -9,3 +9,12 @@ class UserSchema(BaseModel):
 class UserLoginSchema(BaseModel):
     name: str = Field(...)
     password: str = Field(...)
+
+
+class MessageSchema(BaseModel):
+    name: str
+    message: str
+
+
+class Error(BaseModel):
+    error: str
