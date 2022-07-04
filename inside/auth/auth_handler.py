@@ -31,5 +31,5 @@ def decode_jwt(token: str) -> Optional[dict]:
             return decoded_token
     except Exception:
         pass
-    
+
     return None
