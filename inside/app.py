@@ -4,7 +4,7 @@ from fastapi import Body, Depends, FastAPI
 
 from inside.auth.auth_bearer import JWTBearer
 from inside.auth.auth_handler import sign_jwt
-from inside.model import Error, MessageSchema, UserLoginSchema, UserSchema
+from inside.schemas import Error, Message, UserCreate
 
 app = FastAPI()
 
@@ -14,26 +14,26 @@ messages = []
 
 
 @app.post("/user/signup", tags=["user"])
-async def create_user(user: UserSchema = Body(...)):
+async def create_user(user: UserCreate = Body(...)):
     users.append(user)
     return sign_jwt(user.name)
 
 
 @app.post("/user/login", tags=["user"])
-def user_login(user: UserLoginSchema = Body(...)):
+def user_login(user: UserCreate = Body(...)):
     if check_user(user):
         return sign_jwt(user.name)
     return Error(error="Wrong login details!")
 
 
-def check_user(data: UserLoginSchema):
+def check_user(data: UserCreate):
     return any(
         user.name == data.name and user.password == data.password for user in users
     )
 
 
 @app.post("/messages", dependencies=[Depends(JWTBearer())], tags=["messages"])
-def post_message(message: MessageSchema = Body(...)):
+def post_message(message: Message = Body(...)):
     command_result = get_last_messages(message)
     if command_result:
         return command_result
@@ -42,8 +42,8 @@ def post_message(message: MessageSchema = Body(...)):
 
 
 def get_last_messages(
-    message: MessageSchema,
-) -> Union[None, Error, List[MessageSchema]]:
+    message: Message,
+) -> Union[None, Error, List[Message]]:
     command, *args = message.message.split(maxsplit=1)
     if command == "messages" and args:
         try:
