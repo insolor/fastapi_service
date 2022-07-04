@@ -1,7 +1,8 @@
 from typing import List, Union
 
-from fastapi import Body, FastAPI
+from fastapi import Body, FastAPI, Depends
 
+from inside.auth.auth_bearer import JWTBearer
 from inside.auth.auth_handler import sign_jwt
 from inside.model import UserLoginSchema, UserSchema, MessageSchema, Error
 
@@ -29,7 +30,7 @@ def check_user(data: UserLoginSchema):
     return any(user.name == data.name and user.password == data.password for user in users)
 
 
-@app.post("/messages")
+@app.post("/messages", dependencies=[Depends(JWTBearer())], tags=["messages"])
 def post_message(message: MessageSchema = Body(...)):
     command_result = get_last_messages(message)
     if command_result:
