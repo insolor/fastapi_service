@@ -6,7 +6,7 @@ make run
 ```
 Full command example:
 ```
-docker container run -e DATABASE_URL='sqlite:///:memory:' -p 10000:10000 -t insolor/inside_test_project:latest
+docker container run -e DATABASE_URL='sqlite:///./base.db' -p 10000:10000 -t insolor/inside_test_project:latest
 ```
 ## Endpoints:
 
