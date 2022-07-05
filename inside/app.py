@@ -7,7 +7,7 @@ from inside import crud
 from inside.auth.auth_bearer import JWTBearer
 from inside.auth.auth_handler import sign_jwt
 from inside.database import Base, SessionLocal, engine
-from inside.schemas import Message, UserCreate, Result, TokenResponse
+from inside.schemas import Message, UserWithPassword, Result, TokenResponse
 
 app = FastAPI()
 
@@ -23,7 +23,7 @@ def get_db():
 
 
 @app.post("/user/signup", tags=["user"])
-async def create_user(user: UserCreate = Body(...), db: Session = Depends(get_db)) -> TokenResponse:
+async def create_user(user: UserWithPassword = Body(...), db: Session = Depends(get_db)) -> TokenResponse:
     db_user = crud.get_user_by_name(db, user.name)
     if db_user:
         raise HTTPException(status_code=400, detail="User already registered")
@@ -32,7 +32,7 @@ async def create_user(user: UserCreate = Body(...), db: Session = Depends(get_db
 
 
 @app.post("/user/login", tags=["user"])
-def user_login(user: UserCreate = Body(...), db: Session = Depends(get_db)) -> TokenResponse:
+def user_login(user: UserWithPassword = Body(...), db: Session = Depends(get_db)) -> TokenResponse:
     if crud.check_user(db, user):
         return TokenResponse(token=sign_jwt(user.name))
     raise HTTPException(status_code=403, detail="Wrong login details!")

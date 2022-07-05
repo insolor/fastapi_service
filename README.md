@@ -1,7 +1,6 @@
 # inside
 
 Run from docker (hub):
-
 ```
 make run
 ```
@@ -19,7 +18,7 @@ Body:
     "name": "user1",
     "password": "user password"
 }
-Result (on success):
+Result:
 {
     "token": "*****"
 }
@@ -32,7 +31,7 @@ Body:
     "name": "user1",
     "password": "user password"
 }
-Result (on success):
+Result:
 {
     "token": "*****"
 }
@@ -45,7 +44,7 @@ Body:
     "name": "user1",
     "message": "Some messages"
 }
-Result (on success):
+Result:
 {
     "message": "success"
 }
@@ -66,4 +65,28 @@ Result:
     },
     ...
 ]
+```
+## Curl examples:
+```curl
+> curl -X 'POST' \
+  'http://0.0.0.0:10000/user/signup' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "user1",
+  "password": "123"
+}'
+
+{"token":"eyJ...QzI"}
+
+> curl -X 'POST' \
+  'http://0.0.0.0:10000/user/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "user1",
+  "password": "123"
+}'
+
+
 ```

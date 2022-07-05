@@ -11,11 +11,11 @@ def get_user_by_name(db: Session, name: str) -> db_models.User:
     return db.query(db_models.User).filter(db_models.User.name == name).first()
 
 
-def hash_password(password: str) -> bytes:
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode()
 
 
-def create_user(db: Session, user: schemas.UserCreate) -> schemas.UserBase:
+def create_user(db: Session, user: schemas.UserWithPassword) -> schemas.UserBase:
     hashed = hash_password(user.password)
     db_user = db_models.User(name=user.name, hashed_password=hashed)
     db.add(db_user)
@@ -24,10 +24,13 @@ def create_user(db: Session, user: schemas.UserCreate) -> schemas.UserBase:
     return schemas.UserBase(name=db_user.name)
 
 
-def check_user(db: Session, user: schemas.UserCreate) -> bool:
-    hashed = hash_password(user.password)
-    user = get_user_by_name(db, user.name)
-    return user and user.hashed_password == hashed
+def check_password(hashed_password: str, other_password: str):
+    return bcrypt.checkpw(other_password.encode("utf-8"), hashed_password.encode())
+
+
+def check_user(db: Session, user: schemas.UserWithPassword) -> bool:
+    db_user = get_user_by_name(db, user.name)
+    return db_user and check_password(db_user.hashed_password, user.password)
 
 
 def get_last_messages(db: Session, limit: int) -> List[schemas.Message]:
