@@ -1,4 +1,4 @@
-secret=
-algorithm=HS256
+JWT_SECRET=
+JWT_ALGORITHM=HS256
 SQLALCHEMY_DATABASE_URL=sqlite:///./sql_app.db
 # SQLALCHEMY_DATABASE_URL=postgresql://user:password@postgresserver/db
