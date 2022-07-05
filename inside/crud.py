@@ -43,7 +43,7 @@ def get_last_messages(db: Session, limit: int) -> List[schemas.Message]:
     ]
 
 
-def post_message(db: Session, message: schemas.Message):
+def post_message(db: Session, message: schemas.Message) -> None:
     db_user = get_user_by_name(db, message.name)
 
     if db_user is None:

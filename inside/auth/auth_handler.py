@@ -1,5 +1,5 @@
 import time
-from typing import Dict, Optional
+from typing import Optional
 
 import jwt
 from decouple import config
@@ -8,20 +8,12 @@ JWT_SECRET = config("JWT_SECRET")
 JWT_ALGORITHM = config("JWT_ALGORITHM", default="HS256")
 
 
-def token_response(token: str):
-    return {
-        "token": token,
-    }
-
-
-def sign_jwt(user_id: str) -> Dict[str, str]:
+def sign_jwt(user_id: str) -> str:
     payload = {
         "user_id": user_id,
         "expires": time.time() + 600,
     }
-    token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
-
-    return token_response(token)
+    return jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
 
 
 def decode_jwt(token: str) -> Optional[dict]:

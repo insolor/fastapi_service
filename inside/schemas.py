@@ -22,8 +22,8 @@ class Message(MessageBase):
         orm_mode = True
 
 
-class Error(BaseModel):
-    error: str
+class Result(BaseModel):
+    message: str
 
 
 class User(UserBase):
@@ -33,3 +33,7 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class TokenResponse(BaseModel):
+    token: str
