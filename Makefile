@@ -2,7 +2,7 @@ build:
 	poetry build
 	docker image build . -t insolor/inside_test_project
 
-hub:
+publish:
 	docker push insolor/inside_test_project
 
 run:
