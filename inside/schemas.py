@@ -11,9 +11,12 @@ class UserCreate(UserBase):
     password: str
 
 
-class Message(BaseModel):
-    user_id: int
+class MessageBase(BaseModel):
     message: str
+
+
+class Message(MessageBase):
+    name: str
 
     class Config:
         orm_mode = True
@@ -26,7 +29,7 @@ class Error(BaseModel):
 class User(UserBase):
     id: int
     is_active: bool
-    items: List[Message] = []
+    items: List[MessageBase] = []
 
     class Config:
         orm_mode = True
