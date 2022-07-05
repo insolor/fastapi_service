@@ -1,5 +1,7 @@
 import uvicorn
+from decouple import config
 
 from inside.app import app
 
-uvicorn.run(app, host="0.0.0.0", port=10000)
+PORT = config("PORT", default=10000)
+uvicorn.run(app, host="0.0.0.0", port=PORT)
