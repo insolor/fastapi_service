@@ -18,6 +18,6 @@ class Message(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     message = Column(String)
-    user_id = Column(Integer, ForeignKey("user.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
 
     user = relationship("User", back_populates="messages")

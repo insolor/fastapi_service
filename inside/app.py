@@ -27,6 +27,7 @@ async def create_user(user: UserCreate = Body(...), db: Session = Depends(get_db
     db_user = crud.get_user_by_name(db, user.name)
     if db_user:
         raise HTTPException(status_code=400, detail="User already registered")
+    crud.create_user(db, user)
     return sign_jwt(user.name)
 
 
