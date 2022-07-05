@@ -1,6 +1,7 @@
 from typing import List
 
 import bcrypt
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from inside import db_models, schemas
@@ -44,6 +45,10 @@ def get_last_messages(db: Session, limit: int) -> List[schemas.Message]:
 
 def post_message(db: Session, message: schemas.Message):
     db_user = get_user_by_name(db, message.name)
+
+    if db_user is None:
+        raise HTTPException(status_code=400, detail=f"Unknown user: {message.name}")
+
     db_message = db_models.Message(user_id=db_user.id, message=message.message)
     db.add(db_message)
     db.commit()
