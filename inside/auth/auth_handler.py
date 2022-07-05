@@ -1,10 +1,12 @@
+import binascii
+import os
 import time
 from typing import Optional
 
 import jwt
 from decouple import config
 
-JWT_SECRET = config("JWT_SECRET")
+JWT_SECRET = config("JWT_SECRET", default=binascii.hexlify(os.urandom(24)).decode())
 JWT_ALGORITHM = config("JWT_ALGORITHM", default="HS256")
 
 
