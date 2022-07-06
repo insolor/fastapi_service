@@ -18,6 +18,9 @@ Base.metadata.create_all(bind=engine)
 def create_user(
     user: UserWithPassword = Body(...), db: Session = Depends(get_db)
 ) -> TokenResponse:
+    if not user.name:
+        raise HTTPException(status_code=400, detail="Empty user name is forbidden")
+
     db_user = crud.get_user_by_name(db, user.name)
 
     if db_user:

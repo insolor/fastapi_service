@@ -1,11 +1,21 @@
-def test_user(client):
+def test_empty_user(client):
     # Try to create a user with empty password
+    response = client.post(
+        "/user/signup",
+        json=dict(name="", password="123"),
+    )
+    assert response.status_code == 400
+
+
+def test_empty_password(client):
     response = client.post(
         "/user/signup",
         json=dict(name="user1", password=""),
     )
     assert response.status_code == 400
 
+
+def test_user(client):
     # Try to create a user
     response = client.post(
         "/user/signup",
