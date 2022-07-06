@@ -1,5 +1,3 @@
-
-
 def test_user(client):
     # Try to create a user with empty password
     response = client.post(
