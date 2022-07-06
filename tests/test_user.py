@@ -1,12 +1,25 @@
 
 
-def test_login(client):
+def test_user(client):
+    # Try to create a user
     response = client.post(
         "/user/signup",
-        json={
-            "name": "user1",
-            "password": "123"
-        }
+        json=dict(name="user1", password="123"),
+    )
+    assert response.status_code == 200
+    assert "token" in response.json()
+
+    # Try to create the same user again
+    response = client.post(
+        "/user/signup",
+        json=dict(name="user1", password="123"),
+    )
+    assert response.status_code == 400
+
+    # Test login
+    response = client.post(
+        "/user/login",
+        json=dict(name="user1", password="123"),
     )
     assert response.status_code == 200
     assert "token" in response.json()
