@@ -90,5 +90,29 @@ Result:
   "password": "123"
 }'
 
+{"token": "eyJ...77I"}
 
+> curl -X 'POST' \
+  'http://0.0.0.0:10000/messages' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer_eyJ...77I' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "user1",
+  "message": "Some message"
+}'
+
+{"message":"success"}
+
+> curl -X 'POST' \
+  'http://0.0.0.0:10000/messages' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer_eyJ...77I' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "user1",
+  "message": "messages 10"
+}'
+
+[{"message":"Some message","name":"user1"}]
 ```
