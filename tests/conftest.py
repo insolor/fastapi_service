@@ -1,5 +1,7 @@
 import os
 import tempfile
+from typing import Tuple
+from uuid import uuid4
 
 import pytest
 from sqlalchemy import create_engine
@@ -36,8 +38,11 @@ def client(db_fixture) -> TestClient:
 
 
 @pytest.fixture(scope="session")
-def token(client) -> str:
-    return client.post(
+def user_token(client) -> Tuple[str, str]:
+    name = str(uuid4())
+    token = client.post(
         "/user/signup",
-        json=dict(name="user1", password="123"),
+        json=dict(name=name, password="123"),
     ).json()["token"]
+
+    return name, token
