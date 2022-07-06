@@ -16,9 +16,11 @@ def db_fixture() -> Session:
     engine = create_engine("sqlite:///" + db_file, connect_args=dict(check_same_thread=False))
     Base.metadata.create_all(bind=engine)
     session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    db = session_local()
     try:
-        yield session_local()
+        yield db
     finally:
+        db.close()
         os.remove(db_file)
 
 
@@ -30,3 +32,11 @@ def client(db_fixture) -> TestClient:
 
     app.dependency_overrides[get_db] = _get_db_override
     return TestClient(app)
+
+
+@pytest.fixture(scope="session")
+def token(client) -> str:
+    return client.post(
+        "/user/signup",
+        json=dict(name="user1", password="123"),
+    ).json()["token"]
