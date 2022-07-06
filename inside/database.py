@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 DATABASE_URL = config("DATABASE_URL")
 
 connect_args = (
-    {"check_same_thread": False}
+    dict(check_same_thread=False)
     if DATABASE_URL.startswith("sqlite:")
     else dict()
 )
