@@ -23,7 +23,7 @@ def get_db():
 
 
 @app.post("/user/signup", tags=["user"])
-async def create_user(user: UserWithPassword = Body(...), db: Session = Depends(get_db)) -> TokenResponse:
+def create_user(user: UserWithPassword = Body(...), db: Session = Depends(get_db)) -> TokenResponse:
     db_user = crud.get_user_by_name(db, user.name)
     if db_user:
         raise HTTPException(status_code=400, detail="User already registered")
