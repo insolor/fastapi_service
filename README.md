@@ -44,6 +44,7 @@ Body:
     "name": "user1",
     "message": "Some messages"
 }
+Authorization: Bearer_*****
 Result:
 {
     "message": "success"
@@ -57,6 +58,7 @@ Body:
     "name": "user1",
     "message": "messages 10"
 }
+Authorization: Bearer_*****
 Result:
 [
     {
