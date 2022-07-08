@@ -12,7 +12,7 @@ docker container run -e DATABASE_URL='sqlite:///./base.db' -p 10000:10000 -t ins
 
 ### Create user
 ```http
-POST /user/signup - create user
+POST /user/signup
 Body:
 {
     "name": "user1",
@@ -25,7 +25,7 @@ Result:
 ```
 ### Login
 ```http
-POST /user/signup - create user
+POST /user/login
 Body:
 {
     "name": "user1",
