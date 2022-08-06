@@ -1,4 +1,4 @@
-from typing import List, Union, Optional
+from typing import List, Optional, Union
 
 from fastapi import Body, Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
@@ -6,17 +6,15 @@ from sqlalchemy.orm import Session
 from inside import crud
 from inside.auth.auth_bearer import JWTBearer
 from inside.auth.auth_handler import sign_jwt
-from inside.database import Base, engine, get_db
-from inside.schemas import Message, UserWithPassword, Result, TokenResponse
+from inside.database import get_session
+from inside.schemas import Message, Result, TokenResponse, UserWithPassword
 
 app = FastAPI()
-
-Base.metadata.create_all(bind=engine)
 
 
 @app.post("/user/signup", tags=["user"])
 def create_user(
-    user: UserWithPassword = Body(...), db: Session = Depends(get_db)
+    user: UserWithPassword = Body(...), db: Session = Depends(get_session)
 ) -> TokenResponse:
     if not user.name:
         raise HTTPException(status_code=400, detail="Empty user name is forbidden")
@@ -35,7 +33,7 @@ def create_user(
 
 @app.post("/user/login", tags=["user"])
 def user_login(
-    user: UserWithPassword = Body(...), db: Session = Depends(get_db)
+    user: UserWithPassword = Body(...), db: Session = Depends(get_session)
 ) -> TokenResponse:
     if crud.check_user(db, user):
         return TokenResponse(token=sign_jwt(user.name))
@@ -44,7 +42,7 @@ def user_login(
 
 @app.post("/messages", dependencies=[Depends(JWTBearer())], tags=["messages"])
 def post_message(
-    message: Message = Body(...), db: Session = Depends(get_db)
+    message: Message = Body(...), db: Session = Depends(get_session)
 ) -> Union[List[Message], Result]:
     command_result = check_command(db, message)
     if command_result:

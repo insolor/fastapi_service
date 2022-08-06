@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from starlette.testclient import TestClient
 
 from inside.app import app
-from inside.database import Base, get_db
+from inside.database import Base, get_session
 
 
 @pytest.fixture(scope="session")
@@ -33,7 +33,7 @@ def client(db_fixture) -> TestClient:
     def _get_db_override():
         return db_fixture
 
-    app.dependency_overrides[get_db] = _get_db_override
+    app.dependency_overrides[get_session] = _get_db_override
     return TestClient(app)
 
 
