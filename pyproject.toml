@@ -6,7 +6,7 @@ authors = ["insolor <insolor@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = "^0.79.0"
+fastapi = "^0.92.0"
 uvicorn = "^0.18.2"
 PyJWT = "^2.4.0"
 python-decouple = "^3.6"
