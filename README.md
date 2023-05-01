@@ -1,5 +1,7 @@
 # inside
 
+[![Python tests](https://github.com/insolor/Expreimantal_FastAPI_PyJWT_SQLAlchemy_Docker/actions/workflows/python-tests.yml/badge.svg)](https://github.com/insolor/Expreimantal_FastAPI_PyJWT_SQLAlchemy_Docker/actions/workflows/python-tests.yml)
+
 Run from docker (hub):
 ```
 make run
