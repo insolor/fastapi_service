@@ -1,0 +1,40 @@
+name: Python tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, "3.10", "3.11"]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install poetry
+      run: |
+        pip install poetry
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+    - name: Install dependencies
+      run: poetry install
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+    - name: Test with pytest
+      run: |
+        poetry run pytest --cov=./
