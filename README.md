@@ -1,6 +1,7 @@
 # inside
 
 [![Python tests](https://github.com/insolor/Expreimantal_FastAPI_PyJWT_SQLAlchemy_Docker/actions/workflows/python-tests.yml/badge.svg)](https://github.com/insolor/Expreimantal_FastAPI_PyJWT_SQLAlchemy_Docker/actions/workflows/python-tests.yml)
+[![Coverage Status](https://coveralls.io/repos/github/insolor/Experimental_FastAPI_PyJWT_SQLAlchemy_Docker/badge.svg?branch=main)](https://coveralls.io/github/insolor/Experimental_FastAPI_PyJWT_SQLAlchemy_Docker?branch=main)
 
 Run from docker (hub):
 ```
