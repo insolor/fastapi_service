@@ -10,7 +10,7 @@ fastapi = "^0.108.0"
 uvicorn = "^0.25.0"
 PyJWT = "^2.7.0"
 python-decouple = "^3.8"
-SQLAlchemy = "^2.0.23"
+SQLAlchemy = "^2.0.25"
 bcrypt = "^4.1.2"
 
 [tool.poetry.group.dev.dependencies]
